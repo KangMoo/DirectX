@@ -1,0 +1,7 @@
+1. Direct3DFrameWork
+DirectX를 이용하여 간단한 도형 출력
+matWorld에서 행렬곱을 이용한 회전, 이동, 크기변경 적용
+2. RotatingCube
+간단한 큐브
+3. ChristmasTreeStar
+간단한 별 모양 입체 도형

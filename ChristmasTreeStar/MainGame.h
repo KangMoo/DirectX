@@ -15,7 +15,7 @@ class MainGame : public Window
 		//D3DFVF_NORMAL -> 노말 벡터로 사용하겠다
 		//D3DFVF_BINORMAL -> 바이노말로 사용하겠다
 	};
-	tagVertex vertex[6];
+	tagVertex vertex[20][3];
 
 	D3DXMATRIX matWorld;
 	D3DXMATRIX matView;
