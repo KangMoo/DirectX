@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Window.h"
-
 _AppDesc AppDesc;
 D3DXVECTOR3 AppMouse;
 HRESULT Window::CreateDxWindow(HINSTANCE hIns, int cmdShow)
@@ -10,7 +9,7 @@ HRESULT Window::CreateDxWindow(HINSTANCE hIns, int cmdShow)
 	WNDCLASSEX wcex;
 
 	wcex.cbSize = sizeof(WNDCLASSEX);					//클래스 사이즈 
-	wcex.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	wcex.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	//스타일
 	wcex.lpfnWndProc = WndProc;							//메세지 처리 함수 등록
 	wcex.cbClsExtra = 0;								//메모리 시작 부분 (일반 0)
 	wcex.cbWndExtra = 0;								//메모리 시작 부분 (일반 0)
@@ -49,7 +48,7 @@ HRESULT Window::CreateDxWindow(HINSTANCE hIns, int cmdShow)
 	RECT rc = { 0,0 , (LONG)AppDesc.width, (LONG)AppDesc.height };
 
 	UINT centerX = (GetSystemMetrics(SM_CXSCREEN) - (UINT)AppDesc.width / 2);
-	UINT centerY = (GetSystemMetrics(SM_CYSCREEN) - (UINT)AppDesc.height);
+	UINT centerY = (GetSystemMetrics(SM_CYSCREEN) - (UINT)AppDesc.height / 2);
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	MoveWindow(AppDesc.hWnd, centerX, centerY,
 		rc.right - rc.left,
@@ -71,7 +70,7 @@ Window::Window()
 {
 	AppDesc = {
 		nullptr, nullptr,
-		(LPSTR)("Direct3D9"),
+		(LPSTR)"Direct3D9",
 		1024,768
 	};
 }
@@ -81,23 +80,23 @@ Window::~Window()
 {
 	DestroyWindow(AppDesc.hWnd);
 	UnregisterClass(AppDesc.ApplicationName, AppDesc.hInstance);
-
 }
 
 LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-	case WM_MOUSEMOVE:
-	{
-		AppMouse.x = static_cast<float>(LOWORD(lParam));
-		AppMouse.y = static_cast<float>(HIWORD(lParam));
-		break;
+		case WM_MOUSEMOVE:
+		{
+			AppMouse.x = static_cast<float>(LOWORD(lParam));
+			AppMouse.y = static_cast<float>(HIWORD(lParam));
+			break;
+		}
+		case WM_CLOSE: case WM_QUIT:
+		{
+			PostQuitMessage(0);
+			break;
+		}
 	}
-	case WM_CLOSE: case WM_QUIT:
-		PostQuitMessage(0);
-		break;
-
-	}
-	return DefWindowProc(hWnd, msg, wParam,lParam);
+	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
