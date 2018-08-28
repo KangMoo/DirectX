@@ -5,7 +5,7 @@
 #include "MainGame.h"
 
 MainGame* _mg;
-int APIENTRY wWinMain( 
+int APIENTRY wWinMain(
 	_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR lpCmdLine,
@@ -19,7 +19,7 @@ int APIENTRY wWinMain(
 	if (FAILED(_mg->Init())) return FALSE;
 
 	MSG msg;
-	while(true)
+	while (true)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{

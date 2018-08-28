@@ -5,3 +5,6 @@ matWorld에서 행렬곱을 이용한 회전, 이동, 크기변경 적용
 간단한 큐브
 3. ChristmasTreeStar
 간단한 별 모양 입체 도형
+4.CubeWithTexture & Direct3DFrameWork update
+프레임워크에서 텍스쳐&gpu사용하여 랜더링 방식 추가
+CubeWithTexture : 텍스쳐를 입혀 큐브 랜더링

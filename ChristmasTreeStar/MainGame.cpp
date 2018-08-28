@@ -19,25 +19,7 @@ HRESULT MainGame::Init()
 
 
 	D3DXMATRIX vtmp;
-	vtmp._11 = cos(72 * PI / 180);
-	vtmp._12 = sin(72 * PI / 180);
-	vtmp._13 = 0;
-	vtmp._14 = 0;
-
-	vtmp._21 = -sin(72 * PI / 180);
-	vtmp._22 = cos(72 * PI / 180);
-	vtmp._23 = 0;
-	vtmp._24 = 0;
-
-	vtmp._31 = 0;
-	vtmp._32 = 0;
-	vtmp._33 = 1;
-	vtmp._34 = 0;
-
-	vtmp._41 = 0;
-	vtmp._42 = 0;
-	vtmp._43 = 0;
-	vtmp._44 = 1;
+	D3DXMatrixRotationZ(&vtmp, D3DXToRadian(72));
 
 
 	vertex[0][0].position = D3DXVECTOR3(0, 0, -0.3);
