@@ -1,10 +1,20 @@
 1. Direct3DFrameWork
 DirectX를 이용하여 간단한 도형 출력
 matWorld에서 행렬곱을 이용한 회전, 이동, 크기변경 적용
+
 2. RotatingCube
 간단한 큐브
+
 3. ChristmasTreeStar
 간단한 별 모양 입체 도형
+
 4.CubeWithTexture & Direct3DFrameWork update
 프레임워크에서 텍스쳐&gpu사용하여 랜더링 방식 추가
 CubeWithTexture : 텍스쳐를 입혀 큐브 랜더링
+
+5.ParentCube&ChildCube
+부모자식 관계로 엮인 큐브 두 개 생성
+
+6.CubeMan
+부모 자식 관계를 이용하여 사람 모양의 큐브 제작
+
