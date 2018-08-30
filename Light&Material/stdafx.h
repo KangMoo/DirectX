@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 #include <map>
-
+#include <wchar.h>
 #include <assert.h>
 
 //DirectX sdk;
@@ -29,9 +29,11 @@
 //Dx9 Deivce Class 
 #include "D3D.h"
 
+#include "MainStruct.h"
 #include "Keyboard.h"
 #include "Font.h"
 #include "Gizmo.h"
+#include "Util.h"
 
 struct _AppDesc
 {
@@ -43,6 +45,6 @@ struct _AppDesc
 };
 extern _AppDesc AppDesc;
 
-#define SAFE_DELETE(p) {if(p) {delete(p); (p) = NULL;}}
-#define SAFE_DELETE_ARRAY(p) {if(p) {delete[] (p); (p) = NULL;}}
-#define SAFE_RELEASE(p) {if(p) {(p)->Release(); (p) = NULL;}}
+#define SAFE_DELETE(p) {if(p) {delete(p); (p)=NULL;}}
+#define SAFE_DELETE_ARRAY(p) {if(p) {delete[]; (p)=NULL;}}
+#define SAFE_RELEASE(p) {if(p) {(p)->Release(); (p)=NULL;}}

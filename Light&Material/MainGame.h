@@ -2,17 +2,16 @@
 #include "Window.h"
 class MainGame : public Window
 {
-	struct tagVertex
-	{
-		D3DXVECTOR3 position; //무조건 작성이 되어있어야 된다.
-		D3DXVECTOR2 uv;
-		D3DXVECTOR3 normal;
+	//struct tagVertex
+	//{
+	//	D3DXVECTOR3 position; //무조건 작성이 되어있어야 된다.
+	//	D3DXVECTOR2 uv;
+	//
+	//	enum{ FVF = D3DFVF_XYZ | D3DFVF_TEX1};
+	//};
 
-		enum{ FVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL};
-	};
-
-	D3DMATERIAL9 cubeMaterial; //물체의 재질 정보 
-	D3DLIGHT9 light; //라이트 
+	D3DMATERIAL9 material;
+	D3DLIGHT9 light;
 
 	LPDIRECT3DTEXTURE9 pTex; //텍스쳐 저장하는 변수
 	//Directx texture -> bmp, jpg, jng, raw, dds, jpeg, gif
@@ -20,24 +19,18 @@ class MainGame : public Window
 	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
 	LPDIRECT3DINDEXBUFFER9 indexBuffer;
 
-	D3DXMATRIX matChild;
-
 	D3DXMATRIX matWorld;
 	D3DXMATRIX matView;
 	D3DXMATRIX matProjection;
+	D3DXMATRIX childWorld[4];
 
-	float angle[3];
+	float yAngle;
+	float xAngle;
+	float zAngle;
+	D3DXVECTOR3 lightdirection;
+
+	LPD3DXMESH mesh[4];
 	D3DXVECTOR3 pos;
-
-	D3DXMATRIX matBone[7];
-	D3DXMATRIX matCube[6];
-
-	D3DXVECTOR3 direction = D3DXVECTOR3(0, 0, -1);
-
-	D3DXVECTOR3 vec[2];
-
-	bool isChange = false;
-	float s = 0.0f;
 public:
 	MainGame();
 	~MainGame();

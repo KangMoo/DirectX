@@ -17,7 +17,6 @@ int APIENTRY wWinMain(
 	if (FAILED(_mg->CreateDxWindow(hInstance, nCmdShow))) return FALSE;
 	if (FAILED(_mg->CreateDevice()))return FALSE;
 	if (FAILED(_mg->Init())) return FALSE;
-
 	Keyboard::Create();
 	MSG msg;
 	while(true)
@@ -39,7 +38,8 @@ int APIENTRY wWinMain(
 			D3D::Get()->EndDraw();
 		}
 	}
-	FONT->Destroy();
+	UTIL->Destroy();
+	FONT ->Destroy();
 	Keyboard::Delete();
 	_mg->Release();
 	delete _mg;

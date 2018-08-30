@@ -20,3 +20,6 @@ CubeWithTexture : 텍스쳐를 입혀 큐브 랜더링
 
 7.MovingCubeMan
 방향키로 움직이는 큐브맨 제작
+
+8.Light&Material
+광원,재질 효과 구현

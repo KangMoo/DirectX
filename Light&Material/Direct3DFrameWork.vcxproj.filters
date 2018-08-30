@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="System">
-      <UniqueIdentifier>{448deb1c-8f3d-4979-9cd5-01fdb4fdb759}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager">
-      <UniqueIdentifier>{8b6e601d-ffe6-48e5-aeeb-9fb81c60487f}</UniqueIdentifier>
+      <UniqueIdentifier>{4f0fe459-fcf1-4845-8619-5b2bc5fc481c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{c403d40e-185c-40ba-8b43-2a95644577cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,20 +27,23 @@
     <ClCompile Include="MainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="D3D.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Gizmo.cpp">
+    <ClCompile Include="Util.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,20 +53,26 @@
     <ClInclude Include="MainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="D3D.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmo.h">
+    <ClInclude Include="Util.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MainStruct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
