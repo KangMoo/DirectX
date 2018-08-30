@@ -18,3 +18,5 @@ CubeWithTexture : 텍스쳐를 입혀 큐브 랜더링
 6.CubeMan
 부모 자식 관계를 이용하여 사람 모양의 큐브 제작
 
+7.MovingCubeMan
+방향키로 움직이는 큐브맨 제작

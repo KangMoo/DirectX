@@ -29,9 +29,11 @@
 //Dx9 Deivce Class 
 #include "D3D.h"
 
+#include "MainStruct.h"
 #include "Keyboard.h"
 #include "Font.h"
 #include "Gizmo.h"
+#include "Util.h"
 
 struct _AppDesc
 {

@@ -153,6 +153,7 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="Util.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +162,9 @@
     <ClInclude Include="Gizmo.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MainStruct.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Util.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -91,3 +91,6 @@ CubeMan/x64/Debug/vc141.idb
 CubeMan/x64/Debug/vc141.pdb
 CubeMan/x64/Debug/Window.obj
 ParentCube&ChildCube/.vs/Direct3DFrameWork/v15/ipch/AutoPCH/a05ea87c32485708/MAINGAME.ipch
+CubeMan/.vs/Direct3DFrameWork/v15/ipch/AutoPCH/55c904038cce84a2/MAIN.ipch
+CubeMan/.vs/Direct3DFrameWork/v15/ipch/AutoPCH/c5d15dce719d5a5d/WINDOW.ipch
+Direct3DFrameWork/Direct3DFrameWork.VC.db

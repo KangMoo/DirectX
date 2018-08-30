@@ -38,6 +38,7 @@ int APIENTRY wWinMain(
 			D3D::Get()->EndDraw();
 		}
 	}
+	UTIL->Destroy();
 	FONT ->Destroy();
 	Keyboard::Delete();
 	_mg->Release();
