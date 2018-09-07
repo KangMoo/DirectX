@@ -17,9 +17,13 @@ void DrawImGui::Update()
 	if (Input->Press(VK_CONTROL))
 	{
 		if (Input->Down(VK_F11))
+		{
 			ChangeSystemInfo();
+		}
 		if (Input->Down(VK_F12))
+		{
 			ChangeDemoInfo();
+		}
 	}
 }
 
@@ -27,13 +31,12 @@ void DrawImGui::GuiUpdate()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::BeginMenu("View"))
+		if (ImGui::BeginMenu("View")) 
 		{
-			if(ImGui::MenuItem("System Info","Ctrl + F11"))
+			if (ImGui::MenuItem("System Info", "Ctrl + F11"))
 				ChangeSystemInfo();
 			if (ImGui::MenuItem("Demo Window", "Ctrl + F12"))
 				ChangeDemoInfo();
-
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -41,8 +44,7 @@ void DrawImGui::GuiUpdate()
 	if (isShowSystem)
 	{
 		ImGui::Begin("System Info", &isShowSystem);
-		ImGui::Text("Frame Per Second : %4.0f",
-			ImGui::GetIO().Framerate);
+		ImGui::Text("Frame Per Second : %4.0f", ImGui::GetIO().Framerate);
 		ImGui::Separator();
 		ImGui::End();
 	}

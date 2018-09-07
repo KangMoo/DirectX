@@ -53,11 +53,11 @@ extern _AppDesc AppDesc;
 #define SAFE_RELEASE(p) {if(p) {(p)->Release(); (p) = NULL;}}
 
 #define GET_SET(type, Name, param)\
-	type Get##Name()\
-	{\
-		return param;\
-	}\
-	void Set##Name(type _param)\
-	{\
-		param = _param;\
-	}
+type Get##Name()\
+{\
+	return param;\
+}\
+void Set##Name(type _param)\
+{\
+	param = _param;\
+}

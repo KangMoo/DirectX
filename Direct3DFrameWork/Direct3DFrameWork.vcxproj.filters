@@ -23,7 +23,7 @@
       <UniqueIdentifier>{83c51497-10ae-4d53-ac6a-a7f4d3c47429}</UniqueIdentifier>
     </Filter>
     <Filter Include="ImGui">
-      <UniqueIdentifier>{464edf60-f99c-4f41-af6f-5fb4edfd82cf}</UniqueIdentifier>
+      <UniqueIdentifier>{41f09f5c-6c8e-42ff-9322-51a3c7c4c01c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,10 +77,10 @@
     <ClInclude Include="Gizmo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="_ImGui\imgui_impl_dx9.h">
+    <ClInclude Include="_ImGui\imgui.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="_ImGui\imgui.h">
+    <ClInclude Include="_ImGui\imgui_impl_dx9.h">
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="DrawImGui.h">

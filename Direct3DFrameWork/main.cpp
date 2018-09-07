@@ -12,12 +12,12 @@ int APIENTRY wWinMain(
 	_In_ int nCmdShow
 )
 {
+
 	_mg = new MainGame;
 
 	if (FAILED(_mg->CreateDxWindow(hInstance, nCmdShow))) return FALSE;
 	if (FAILED(_mg->CreateDevice()))return FALSE;
 	if (FAILED(_mg->Init())) return FALSE;
-
 	Keyboard::Create();
 	MSG msg;
 	while(true)
@@ -37,11 +37,11 @@ int APIENTRY wWinMain(
 				ImGui::ImplWin32_NewFrame();
 
 				ImGui::NewFrame();
-				//ImGui 용 함수 
+				//ImGui용 함수
 				_mg->GuiUpdate();
 				ImGui::EndFrame();
 			}
-			_mg->RenderTexutre();
+			_mg->RenderTexture();
 
 			D3D::Get()->BeginDraw();
 			{

@@ -2,23 +2,22 @@
 #include "MainGame.h"
 #include "DrawImGui.h"
 #include "RTT.h"
+
 MainGame::MainGame()
 {
-	p = new DrawImGui;
-
+	pDrawImGui = new DrawImGui;
 }
 
 
 MainGame::~MainGame()
 {
-	SAFE_DELETE(p);
+	SAFE_DELETE(pDrawImGui);
 }
 
 HRESULT MainGame::Init()
 {
+
 	rtt = new RTT(AppDesc.width, AppDesc.height);
-
-
 	D3DXMatrixLookAtLH(&matView,
 		new D3DXVECTOR3(0, 0, -120),
 		new D3DXVECTOR3(0, 0, 0),
@@ -71,6 +70,14 @@ HRESULT MainGame::Init()
 		return E_FAIL;
 	}
 
+	vertex[0].pos = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+	vertex[1].pos = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[2].pos = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	vertex[0].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f,1.0f);
+	vertex[1].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f,1.0f);
+	vertex[2].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f,1.0f);
+
+
 	D3DXCreateTextureFromFile
 	(
 		DEVICE,
@@ -100,7 +107,7 @@ void MainGame::Update()
 			NULL
 		);
 	}
-	p->Update();
+	pDrawImGui->Update();
 }
 void MainGame::Render()
 {
@@ -148,9 +155,10 @@ void MainGame::Render()
 
 }
 
-void MainGame::RenderTexutre()
+void MainGame::RenderTexture()
 {
 	rtt->BeginDraw();
+
 	//effect에 작성된 전역 변수 변수값 셋팅
 	this->pEffect->SetMatrix("matWorld", &matSphere);
 	this->pEffect->SetMatrix("matView", &matView);
@@ -197,10 +205,9 @@ void MainGame::RenderTexutre()
 
 void MainGame::GuiUpdate()
 {
-	p->GuiUpdate();
-
+	pDrawImGui->GuiUpdate();
 	ImGui::Image(
 		rtt->GetTexture(),
-		ImVec2(300,300)
+		ImVec2(300, 300)
 	);
 }

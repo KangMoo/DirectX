@@ -30,11 +30,11 @@ public:
 	void Update();
 	void Render();
 
-	void RenderTexutre();
+	void RenderTexture();
 	void GuiUpdate();
 
 private:
-	class DrawImGui* p;
+	class DrawImGui* pDrawImGui;
 	class RTT* rtt;
 };
 
