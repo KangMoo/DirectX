@@ -15,6 +15,9 @@ private:
 
 	LPDIRECT3DDEVICE9 pDevice;
 
+private:
+	HRESULT CreateImGuiDevice();
+
 public:
 	HRESULT CreateDevice();
 	void BeginDraw();

@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -77,8 +77,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\DirectX\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\DirectX\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -100,6 +98,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <FxCompile>
+      <EntryPointName>vs_main</EntryPointName>
+    </FxCompile>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -129,6 +136,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <FxCompile>
+      <EntryPointName>vs_main</EntryPointName>
+    </FxCompile>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,21 +164,59 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="D3D.cpp" />
+    <ClCompile Include="DrawImGui.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="RTT.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3D.h" />
+    <ClInclude Include="DrawImGui.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Gizmo.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="RTT.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="_ImGui\imgui.h" />
+    <ClInclude Include="_ImGui\imgui_impl_dx9.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BaseColor.fx">
+      <FileType>Document</FileType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lambert.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexSpecular.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Phong.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BlinnPhong.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TextureMapping.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

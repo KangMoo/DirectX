@@ -32,9 +32,22 @@ int APIENTRY wWinMain(
 		{
 			Input->Update();
 			_mg->Update();
+			{
+				ImGui::ImplDX9_NewFrame();
+				ImGui::ImplWin32_NewFrame();
+
+				ImGui::NewFrame();
+				//ImGui ¿ë ÇÔ¼ö 
+				_mg->GuiUpdate();
+				ImGui::EndFrame();
+			}
+			_mg->RenderTexutre();
+
 			D3D::Get()->BeginDraw();
 			{
 				_mg->Render();
+				ImGui::Render();
+				ImGui::ImplDX9_RenderDrawData(ImGui::GetDrawData());
 			}
 			D3D::Get()->EndDraw();
 		}

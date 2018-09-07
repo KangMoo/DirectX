@@ -19,6 +19,12 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{8b6e601d-ffe6-48e5-aeeb-9fb81c60487f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{83c51497-10ae-4d53-ac6a-a7f4d3c47429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{464edf60-f99c-4f41-af6f-5fb4edfd82cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -40,6 +46,12 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Gizmo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawImGui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="RTT.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,5 +77,37 @@
     <ClInclude Include="Gizmo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="_ImGui\imgui_impl_dx9.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="_ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawImGui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="RTT.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BaseColor.fx">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Lambert.fx">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="VertexSpecular.fx">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Phong.fx">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="BlinnPhong.fx">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="TextureMapping.fx">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

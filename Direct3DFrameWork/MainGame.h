@@ -2,42 +2,25 @@
 #include "Window.h"
 class MainGame : public Window
 {
-	struct tagVertex
-	{
-		D3DXVECTOR3 position; //무조건 작성이 되어있어야 된다.
-		D3DXVECTOR2 uv;
-		D3DXVECTOR3 normal;
+private:
 
-		enum{ FVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL};
-	};
-
-	D3DMATERIAL9 cubeMaterial; //물체의 재질 정보 
-	D3DLIGHT9 light; //라이트 
-
-	LPDIRECT3DTEXTURE9 pTex; //텍스쳐 저장하는 변수
-	//Directx texture -> bmp, jpg, jng, raw, dds, jpeg, gif
-
-	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
-	LPDIRECT3DINDEXBUFFER9 indexBuffer;
-
-	D3DXMATRIX matChild;
-
-	D3DXMATRIX matWorld;
 	D3DXMATRIX matView;
 	D3DXMATRIX matProjection;
 
-	float angle[3];
-	D3DXVECTOR3 pos;
+	LPD3DXMESH pMeshSphere;
+	D3DXMATRIX matSphere;
 
-	D3DXMATRIX matBone[7];
-	D3DXMATRIX matCube[6];
+	LPD3DXEFFECT pEffect;
 
-	D3DXVECTOR3 direction = D3DXVECTOR3(0, 0, -1);
+	struct tagVertex
+	{
+		D3DXVECTOR3 pos;
+		D3DXVECTOR4 color;
+		enum {FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE};
+	};
+	tagVertex vertex[3];
 
-	D3DXVECTOR3 vec[2];
-
-	bool isChange = false;
-	float s = 0.0f;
+	LPDIRECT3DTEXTURE9 pTex;
 public:
 	MainGame();
 	~MainGame();
@@ -47,7 +30,11 @@ public:
 	void Update();
 	void Render();
 
-	void MakeCube();
-	void SetUV(tagVertex* vertex, D3DXVECTOR2 offset);
+	void RenderTexutre();
+	void GuiUpdate();
+
+private:
+	class DrawImGui* p;
+	class RTT* rtt;
 };
 

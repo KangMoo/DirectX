@@ -86,8 +86,21 @@ Window::~Window()
 
 LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui::ImplWin32_WndProcHandler(
+		hWnd, msg, wParam, lParam
+	)) return true;
+
 	switch (msg)
 	{
+	case WM_SIZE:
+	{
+		if (DEVICE != NULL && wParam != SIZE_MINIMIZED)
+			ImGui::ImplDX9_InvalidateDeviceObjects();
+
+		AppDesc.width = static_cast<UINT>(LOWORD(lParam));
+		AppDesc.height = static_cast<UINT>(HIWORD(lParam));
+	}
+	break;
 	case WM_MOUSEMOVE:
 	{
 		AppMouse.x = static_cast<float>(LOWORD(lParam));
@@ -97,7 +110,6 @@ LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CLOSE: case WM_QUIT:
 		PostQuitMessage(0);
 		break;
-
 	}
 	return DefWindowProc(hWnd, msg, wParam,lParam);
 }

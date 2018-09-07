@@ -3,6 +3,16 @@
 
 D3D* D3D::instance = NULL;
 
+HRESULT D3D::CreateImGuiDevice()
+{
+	ImGui::CreateContext();
+	if (!ImGui::ImplWin32_Init(AppDesc.hWnd)) return E_FAIL;
+	if (!ImGui::ImplDX9_Init(DEVICE)) return E_FAIL;
+
+	ImGui::StyleColorsDark();
+	return S_OK;
+}
+
 HRESULT D3D::CreateDevice()
 {
 	//Device 생성하려면 IDrectect3d9객체가 필요 
@@ -60,6 +70,10 @@ HRESULT D3D::CreateDevice()
 	pD3D9->Release();
 	pD3D9 = nullptr;
 
+	if (FAILED(CreateImGuiDevice()))
+	{
+		return E_FAIL;
+	}
 	return result;
 }
 
@@ -71,7 +85,7 @@ void D3D::BeginDraw()
 		D3DCLEAR_TARGET | //컬러 값
 		D3DCLEAR_ZBUFFER | //깊이 값
 		D3DCLEAR_STENCIL, //스텐실 값
-		D3DCOLOR_XRGB(100, 25, 25), //청소후 컬러값
+		D3DCOLOR_XRGB(128, 128, 128), //청소후 컬러값
 		1.0f, //청소 후 깊이값(0 ~ 1) 카메라를 기준으로 
 		0.0f //청소후 스텐실값
 	);
