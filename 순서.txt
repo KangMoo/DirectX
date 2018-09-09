@@ -28,3 +28,8 @@ CubeWithTexture : 텍스쳐를 입혀 큐브 랜더링
 셰이더 추가
 ImGui 추가
 RendertTargetTexture 추가
+XFile import 추가
+
+10. XFileWithTexture1,2,3
+XFile과 Texture를 이용한 물체 제작
+카메라 이동 구현

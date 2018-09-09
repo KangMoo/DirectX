@@ -7,20 +7,16 @@ private:
 	D3DXMATRIX matView;
 	D3DXMATRIX matProjection;
 
-	LPD3DXMESH pMeshSphere;
-	D3DXMATRIX matSphere;
+	LPD3DXMESH pMesh;
+	D3DXMATRIX meshTrans;
+	D3DXMATRIX meshLocal;
+
+	DWORD dwMaterialNum;	//ºŒ¿Ã¥ı
+	std::vector<LPDIRECT3DTEXTURE9> vecTextures;
+	std::vector<D3DMATERIAL9> vecMaterials;	
 
 	LPD3DXEFFECT pEffect;
 
-	struct tagVertex
-	{
-		D3DXVECTOR3 pos;
-		D3DXVECTOR4 color;
-		enum {FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE};
-	};
-	tagVertex vertex[3];
-
-	LPDIRECT3DTEXTURE9 pTex;
 public:
 	MainGame();
 	~MainGame();

@@ -19,7 +19,7 @@ HRESULT MainGame::Init()
 
 	rtt = new RTT(AppDesc.width, AppDesc.height);
 	D3DXMatrixLookAtLH(&matView,
-		new D3DXVECTOR3(0, 0, -120),
+		new D3DXVECTOR3(2, 2, -5),
 		new D3DXVECTOR3(0, 0, 0),
 		new D3DXVECTOR3(0, 1, 0));
 
@@ -29,19 +29,9 @@ HRESULT MainGame::Init()
 		(float)AppDesc.width / (float)AppDesc.height,
 		0.1f, 1000.0f);
 
-	//구 메쉬
-	//D3DXCreateSphere(DEVICE, 
-	//	1.0f,		//반지름
-	//	60.0f,		//세로 디테일
-	//	60.0f,      //가로 디테일 
-	//	&pMeshSphere, NULL);
-	D3DXLoadMeshFromX("sphere.x",
-		D3DXMESH_SYSTEMMEM, DEVICE,
-		NULL, NULL, NULL, NULL, &pMeshSphere);
-	D3DXMatrixTranslation(&matSphere, 0.0f, 0, 0);
 
 	//effect 및 셰이더 초기화
-	
+
 	//오류 검사 (왜, 어디)
 	LPD3DXBUFFER pError = NULL;
 
@@ -70,30 +60,179 @@ HRESULT MainGame::Init()
 		return E_FAIL;
 	}
 
-	vertex[0].pos = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
-	vertex[1].pos = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].pos = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	vertex[0].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f,1.0f);
-	vertex[1].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f,1.0f);
-	vertex[2].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f,1.0f);
+	//모델까지의 경로
+	std::string fileName("GunShip/gunship.x");
+	std::string filePath = _MESH + fileName;
 
+	LPD3DXBUFFER pAdjacency;		//인접버퍼
+	LPD3DXBUFFER pMaterial;			//재질버퍼
+	//DWORD dwNumMtrl;				//재질의 수
 
-	D3DXCreateTextureFromFile
-	(
-		DEVICE,
-		"Wall.jpg",
-		&pTex
+	D3DXLoadMeshFromX(
+		filePath.c_str(),	//경로
+		D3DXMESH_MANAGED,	//옵션
+		DEVICE,				//디바이스
+		&pAdjacency,		//인접정보 버퍼 얻어옴
+		&pMaterial,			//인접 재질
+		NULL,
+		&this->dwMaterialNum,
+		&this->pMesh
 	);
 
+	//텍스쳐 로딩을 위해서 경로만을 받아온다
+	std::string path;
+	int lastPathIndex = 0;	//마지막 /의 위치
+	lastPathIndex = filePath.find_last_of('/');
+	if (lastPathIndex == -1)		// '/'를 찾지 못했을 경우 : -1
+	{
+		lastPathIndex = filePath.find_last_of('\\');		// 역슬래쉬 찾기
+	}
+
+	//경로가 존재하면
+	if (lastPathIndex != -1)
+	{
+		//filepath.substr(시작 위치, 갯수)
+		path = filePath.substr(0, lastPathIndex + 1);
+	}
+	//재질 정보 얻기
+	LPD3DXMATERIAL pMaterials = (LPD3DXMATERIAL)pMaterial->GetBufferPointer();
+	//재질 정보 갯수 만큼 반복
+	for (DWORD i = 0; i < this->dwMaterialNum; i++)
+	{
+		//로드된 재질
+		D3DMATERIAL9 mtrl = pMaterials[i].MatD3D;
+
+		//Diffuse
+		//매쉬의 머테리얼에 Ambient 정보가 없다
+		//diffuse와 같은 정보 초기화
+		mtrl.Ambient = mtrl.Diffuse;
+		this->vecMaterials.push_back(mtrl);
+		if (pMaterials[i].pTextureFilename != NULL)
+		{
+			//파일 경로
+			std::string texFilePath = path + pMaterials[i].pTextureFilename;
+			LPDIRECT3DTEXTURE9 pTex;
+			D3DXCreateTextureFromFile(
+				DEVICE, texFilePath.c_str(), &pTex
+			);
+			vecTextures.push_back(pTex);
+		}
+		else
+		{
+			//없더라도 반드시 NULL을 대입(중요)
+			vecTextures.push_back(NULL);
+		}
+	}
+
+	//얻어온 재질 정보에 대이터는 다 사용
+	//필요없는 녀석은 메모리 해제
+	SAFE_RELEASE(pMaterial);
+
+	//매쉬 최적화
+	this->pMesh->OptimizeInplace(
+		D3DXMESHOPT_ATTRSORT |		//매쉬를 서브셋 순서대로 정렬
+		D3DXMESHOPT_COMPACT |		//매쉬에서 사용되지 않는 정점,인덱스 삭제
+		D3DXMESHOPT_VERTEXCACHE,	//정점 CASHE 히트율을 높임
+		(DWORD*)pAdjacency->GetBufferPointer(),	//인접 버퍼 정보
+		NULL,		//최적화를 마치고 결과로 얻는 인접정보
+		NULL,		//최적화된 인덱스 정보
+		NULL		//최적화된 정점 버퍼 정보
+	);
+	SAFE_RELEASE(pAdjacency);
+
+	//메쉬 보정 처리 메쉬에서
+	//다음과 같은 행렬로 보정시켜
+	//모든 데이터를 틀어버린다
+	D3DXMATRIX matScale;
+	D3DXMatrixScaling(&matScale, 0.2, 0.2, 0.2);
+	D3DXMATRIX matRotate;
+	D3DXMatrixRotationY(&matRotate, D3DXToRadian(30));
+	D3DXMATRIX matCorrection = matScale * matRotate;
+
+	//정점 Element를 얻어 정점 정보 저장
+	D3DVERTEXELEMENT9 pVerElement[MAX_FVF_DECL_SIZE];
+	pMesh->GetDeclaration(pVerElement);
+	int positionOffset = -1;
+	int normalOffset = -1;
+	int tangentOffset = -1;
+	int binormalOffset = -1;
+	for (DWORD i = 0; i < MAX_FVF_DECL_SIZE; i++)
+	{
+		if (pVerElement[i].Type == D3DDECLTYPE_UNUSED)
+		{
+			//마지막을 만나면 종료
+			break;
+		}
+		if (pVerElement[i].Usage == D3DDECLUSAGE_POSITION)
+		{
+			positionOffset = pVerElement[i].Offset;
+		}
+		else if (pVerElement[i].Usage == D3DDECLUSAGE_NORMAL)
+		{
+			normalOffset = pVerElement[i].Offset;
+		}
+		else if (pVerElement[i].Usage == D3DDECLUSAGE_TANGENT)
+		{
+			tangentOffset = pVerElement[i].Offset;
+		}
+		else if (pVerElement[i].Usage == D3DDECLUSAGE_BINORMAL)
+		{
+			binormalOffset = pVerElement[i].Offset;
+		}
+	}
+	DWORD verNum = pMesh->GetNumVertices();
+	DWORD stride = D3DXGetDeclVertexSize(pVerElement, 0);
+	void* p = NULL;
+	pMesh->LockVertexBuffer(0, &p);
+	{
+		for (int i = 0; i < verNum; i++)
+		{
+			//버텍스 시작 주소
+			char* pVertex = ((char*)p + i * stride);
+			if (positionOffset != -1)
+			{
+				D3DXVECTOR3* pos = (D3DXVECTOR3*)(pVertex + positionOffset);
+				D3DXVec3TransformCoord(pos, pos, &matCorrection);
+			}
+			if (normalOffset != -1)
+			{
+				D3DXVECTOR3* nor = (D3DXVECTOR3*)(pVertex + normalOffset);
+				D3DXVec3TransformCoord(nor, nor, &matCorrection);
+				D3DXVec3Normalize(nor, nor);
+			}
+			if (tangentOffset != -1)
+			{
+				D3DXVECTOR3* nor = (D3DXVECTOR3*)(pVertex + normalOffset);
+				D3DXVec3TransformCoord(nor, nor, &matCorrection);
+				D3DXVec3Normalize(nor, nor);
+			}
+			if (binormalOffset != -1)
+			{
+				D3DXVECTOR3* nor = (D3DXVECTOR3*)(pVertex + normalOffset);
+				D3DXVec3TransformCoord(nor, nor, &matCorrection);
+				D3DXVec3Normalize(nor, nor);
+			}
+		}
+
+
+	}
+	pMesh->UnlockAttributeBuffer();
+
+	D3DXMatrixIdentity(&meshLocal);
+	D3DXMatrixIdentity(&meshTrans);
 
 	DEVICE->SetRenderState(D3DRS_LIGHTING, false);
+	//D3DXMatrixScaling(&meshLocal, 0.5, 0.5, 0.5);
 	return S_OK;
 }
 
 void MainGame::Release()
 {
 	SAFE_RELEASE(pEffect);
-	SAFE_RELEASE(pMeshSphere);
+	for (int i = 0; i < vecTextures.size(); i++)
+	{
+		SAFE_RELEASE(vecTextures[i]);
+	}
 }
 
 void MainGame::Update()
@@ -111,103 +250,27 @@ void MainGame::Update()
 }
 void MainGame::Render()
 {
-	//effect에 작성된 전역 변수 변수값 셋팅
-	this->pEffect->SetMatrix("matWorld", &matSphere);
-	this->pEffect->SetMatrix("matView", &matView);
-	this->pEffect->SetMatrix("matProjection", &matProjection);
-	this->pEffect->SetVector("vMaterialDiffuseColor",
-		new D3DXVECTOR4(1, 0, 0, 1));
-	this->pEffect->SetVector("vMaterialSpecularColor",
-		new D3DXVECTOR4(1, 1, 0, 1));
-	this->pEffect->SetTechnique("BaseColor");
-	//D3DXMatrixInverse(&matSphere, NULL, &matSphere);
-	D3DXVECTOR3 lightDir = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
-	D3DXVec3Normalize(&lightDir, &lightDir);
-	this->pEffect->SetVector("vLightDir",
-		new D3DXVECTOR4(lightDir, 1.0f));
-	this->pEffect->SetVector("vEyePos",
-		new D3DXVECTOR4(0,0, -120, 1.0f));
-	this->pEffect->SetFloat("fPower", 60);
-	this->pEffect->SetTexture("diffuseTex", pTex);
-	DEVICE->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
-	//랜더 
-	UINT iPassNum = 0;
-	this->pEffect->Begin
-	(
-		&iPassNum,	//pass 수를 받아온다
-		0			//옵션
-	);
+	DEVICE->SetTransform(D3DTS_WORLD, &meshLocal);
+	DEVICE->SetTransform(D3DTS_VIEW, &matView);
+	DEVICE->SetTransform(D3DTS_PROJECTION, &matProjection);
+	GIZMO->WorldGrid(10);
+	//재질 수 만큼 랜더
+	for (DWORD i = 0; i < this->dwMaterialNum; i++)
 	{
-		//pass 수만큼 적용시킨다. 
-		for (UINT i = 0; i < iPassNum; i++)
-		{
-			this->pEffect->BeginPass(i);
-			{
-				//도형 랜더
-				pMeshSphere->DrawSubset(0);
-
-			}
-			this->pEffect->EndPass();
-		}
+		DEVICE->SetTexture(0, vecTextures[i]);
+		this->pMesh->DrawSubset(i);
 	}
-	this->pEffect->End();
-
+	DEVICE->SetTexture(0, NULL);
 
 }
 
 void MainGame::RenderTexture()
 {
-	rtt->BeginDraw();
 
-	//effect에 작성된 전역 변수 변수값 셋팅
-	this->pEffect->SetMatrix("matWorld", &matSphere);
-	this->pEffect->SetMatrix("matView", &matView);
-	this->pEffect->SetMatrix("matProjection", &matProjection);
-	this->pEffect->SetVector("vMaterialDiffuseColor",
-		new D3DXVECTOR4(1, 0, 0, 1));
-	this->pEffect->SetVector("vMaterialSpecularColor",
-		new D3DXVECTOR4(1, 1, 0, 1));
-	this->pEffect->SetTechnique("BaseColor");
-	//D3DXMatrixInverse(&matSphere, NULL, &matSphere);
-	D3DXVECTOR3 lightDir = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
-	D3DXVec3Normalize(&lightDir, &lightDir);
-	this->pEffect->SetVector("vLightDir",
-		new D3DXVECTOR4(lightDir, 1.0f));
-	this->pEffect->SetVector("vEyePos",
-		new D3DXVECTOR4(0, 0, -120, 1.0f));
-	this->pEffect->SetFloat("fPower", 60);
-	this->pEffect->SetTexture("diffuseTex", pTex);
-	DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//랜더 
-	UINT iPassNum = 0;
-	this->pEffect->Begin
-	(
-		&iPassNum,	//pass 수를 받아온다
-		0			//옵션
-	);
-	{
-		//pass 수만큼 적용시킨다. 
-		for (UINT i = 0; i < iPassNum; i++)
-		{
-			this->pEffect->BeginPass(i);
-			{
-				//도형 랜더
-				pMeshSphere->DrawSubset(0);
-
-			}
-			this->pEffect->EndPass();
-		}
-	}
-	this->pEffect->End();
-
-	rtt->EndDraw();
 }
 
 void MainGame::GuiUpdate()
 {
 	pDrawImGui->GuiUpdate();
-	ImGui::Image(
-		rtt->GetTexture(),
-		ImVec2(300, 300)
-	);
+
 }

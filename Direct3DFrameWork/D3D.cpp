@@ -85,7 +85,7 @@ void D3D::BeginDraw()
 		D3DCLEAR_TARGET | //컬러 값
 		D3DCLEAR_ZBUFFER | //깊이 값
 		D3DCLEAR_STENCIL, //스텐실 값
-		D3DCOLOR_XRGB(128, 128, 128), //청소후 컬러값
+		D3DCOLOR_XRGB(0,0,0), //청소후 컬러값
 		1.0f, //청소 후 깊이값(0 ~ 1) 카메라를 기준으로 
 		0.0f //청소후 스텐실값
 	);

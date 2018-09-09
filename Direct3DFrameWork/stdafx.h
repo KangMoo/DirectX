@@ -61,3 +61,5 @@ void Set##Name(type _param)\
 {\
 	param = _param;\
 }
+
+#define _MESH "./Resources/Meshes/"
